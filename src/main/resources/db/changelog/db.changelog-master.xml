@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="1" author="danperad">
+        <createTable tableName="user">
+            <column autoIncrement="true" name="user_id" type="serial">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="last_name" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_name" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(255)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="password" type="varchar(250)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role" type="varchar(250)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="task">
+            <column autoIncrement="true" name="task_id" type="serial">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(300)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="priority" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="author_user_id" type="int">
+                <constraints nullable="false" foreignKeyName="fk_task_user_author" references="user(user_id)"/>
+            </column>
+            <column name="actor_user_id" type="int">
+                <constraints nullable="true" foreignKeyName="fk_task_user_actor" references="user(user_id)"/>
+            </column>
+        </createTable>
+        <createTable tableName="comment">
+            <column autoIncrement="true" name="comment_id" type="serial">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="comment_text" type="varchar(300)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="task_id" type="int">
+                <constraints nullable="false" foreignKeyName="fk_comment_task" references="task(task_id)"/>
+            </column>
+            <column name="author_user_id" type="int">
+                <constraints nullable="false" foreignKeyName="fk_comment_user" references="user(user_id)"/>
+            </column>
+        </createTable>
+        <!--        <insert tableName="user">-->
+        <!--            <column name="last_name">Admin</column>-->
+        <!--            <column name="first_name">Admin</column>-->
+        <!--            <column name="email">example@admin.com</column>-->
+        <!--            <column name="role">ROLE_ADMIN</column>-->
+        <!--            <column name="password">$2a$10$5g3ank2tY4fqjflIj4wzme0UUXa.Yk63z7KJS8zlYB6fMKX7BLBpK</column>-->
+        <!--        </insert>-->
+    </changeSet>
+
+</databaseChangeLog>

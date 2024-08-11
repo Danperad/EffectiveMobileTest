@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: always
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: test
+      POSTGRES_PASSWORD: tesTpasswOrd!
+
+  web-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    links:
+      - db
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: jdbc:postgresql://db:5432/test
+      DATABASE_PASSWORD: tesTpasswOrd!
+      DATABASE_USER: postgres
+    ports:
+      - "8080:8080"
